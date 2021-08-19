@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Response<T> {
+    @Builder.Default
     private int stateCode = 200;
+    @Builder.Default
     private String message = "성공하셨습니다.";
     private T result;
 

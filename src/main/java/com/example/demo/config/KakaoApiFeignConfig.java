@@ -1,6 +1,8 @@
 package com.example.demo.config;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import feign.Client;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
@@ -10,6 +12,7 @@ import feign.httpclient.ApacheHttpClient;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
@@ -21,14 +24,14 @@ public class KakaoApiFeignConfig {
     @Value("${kakao.key}")
     private String apiKey;
 
-//    @Autowired
-//    public kakaoDevConfig() {
-//        /* 이름 정책을 변경하기 위해 빌더 이용*/
-//        GsonBuilder gsonBuilder = new GsonBuilder();
-//        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-//
-//        this.gson = gsonBuilder.create();
-//    }
+    @Autowired
+    public KakaoApiFeignConfig() {
+        /* 이름 정책을 변경하기 위해 빌더 이용*/
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+
+        this.gson = gsonBuilder.create();
+    }
 
 
     @Bean
