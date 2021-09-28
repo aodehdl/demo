@@ -1,6 +1,8 @@
 package com.example.demo.dto;
 
 import com.google.gson.annotations.SerializedName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +15,9 @@ public class BookSearchDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    @ApiModel(description = "유저 모델", value = "BookSearchDto.Req")
     public static class Req {
+        @ApiModelProperty(required = true, value = "검색어 || 01:도서, 02:구분", example = "01", hidden = false)
         String query; //query   검색어   	String 필수여부 O
         String sort; // sort	정렬방식 	String 필수여부 X
         String page; // page   현재페이지	String 필수여부 X 기본값 1

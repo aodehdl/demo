@@ -7,7 +7,6 @@ import com.example.demo.feign.KakaoFeignService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +18,8 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/main")
-public class IndexController {
+@RequestMapping("/home")
+public class IndexController2 {
     private final KakaoFeignService kakaoFeignService;
 
     @GetMapping("")
@@ -33,7 +32,6 @@ public class IndexController {
     }
 
     @GetMapping("/2")
-    @Profile("dev")
     public Response<BookSearchDto.Res> temp(@AuthenticationPrincipal User user
             , @RequestBody(required = false) BookSearchDto.Req req){
         log.debug("{}",user);
@@ -68,11 +66,11 @@ public class IndexController {
         return modelAndView;
     }
 
-    final String str = "Map으로 리턴 하며 의미는 아래와같다<br/>" +
-            "email 이메일<br/>" +
-            "name 이름<br/>" +
-            "email 이메일<br/>" +
-            "email 이메일<br/>" +
-            "email 이메일<br/>" +
-            "email 이메일<br/>";
+    final String str = "Map으로 리턴 하며 의미는 아래와같다" +
+            "email 이메일" +
+            "name 이름" +
+            "email 이메일" +
+            "email 이메일" +
+            "email 이메일" +
+            "email 이메일";
 }

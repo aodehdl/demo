@@ -59,12 +59,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomLoginFilter filter = new CustomLoginFilter(authenticationManager());
 
         http
                 .csrf().disable()
                 .authorizeRequests(request->
-                        request.antMatchers("/", "/login/**", "/3", "/sms-login", "/sms-login-process").permitAll()
+                        request.antMatchers(
+                                "/**",
+                                "/", "/login/**", "/3", "/sms-login", "/sms-login-process").permitAll()
+                                .antMatchers("/swagger-ui.html").denyAll()
                                 .anyRequest().authenticated()
                 )
 //                .exceptionHandling()
