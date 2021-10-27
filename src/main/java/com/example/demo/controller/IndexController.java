@@ -4,17 +4,23 @@ import com.example.demo.dto.BookSearchDto;
 import com.example.demo.dto.Response;
 import com.example.demo.dto.ValidTestDto;
 import com.example.demo.feign.KakaoFeignService;
+import com.example.demo.service.AsyncService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -22,6 +28,7 @@ import javax.validation.Valid;
 @RequestMapping("/main")
 public class IndexController {
     private final KakaoFeignService kakaoFeignService;
+    private final AsyncService asyncService;
 
     @GetMapping("")
     public ModelAndView main(){
@@ -53,9 +60,27 @@ public class IndexController {
         return res.toString();
     }
 
-    @PostMapping("/4")
-    public String temp4(@RequestParam(name = "code") String code, @RequestParam(name = "state") String state){
-        log.debug("{}, {}", code, state);
+    @GetMapping("/4")
+    public String temp4()  throws InterruptedException {
+        StopWatch stopWatch =new StopWatch();
+        stopWatch.start();
+        var price1 = asyncService.findUser();
+        var price2 = asyncService.findUser2();
+        var price3 = asyncService.findUser3();
+        List<CompletableFuture> futures = Arrays.asList(price1,
+                price2,
+                price3);
+        //다른 로직
+        CompletableFuture.allOf(price1,price2,price3)
+                .thenAccept(s -> {
+                    stopWatch.stop();
+                    log.info("밀리 세컨드 : {}", stopWatch.getTotalTimeMillis());
+                    var result = futures.stream()
+                            .map(pageContentFuture -> pageContentFuture.join())
+                            .collect(Collectors.toList());
+                    log.info(result.toString());
+                });
+
         return "";
     }
 

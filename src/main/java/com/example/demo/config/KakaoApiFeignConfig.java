@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
+import java.util.concurrent.TimeUnit;
+
 @RequiredArgsConstructor
 public class KakaoApiFeignConfig {
     private final Gson gson;
@@ -38,15 +40,17 @@ public class KakaoApiFeignConfig {
     public Client client() {
 
         final HttpClientBuilder builder = HttpClientBuilder.create()
-                .setMaxConnPerRoute(300)
-                .setMaxConnTotal(300)
+                .disableContentCompression()
+                .setMaxConnPerRoute(10)
+                .setMaxConnTotal(100)
+                .setConnectionTimeToLive(10, TimeUnit.SECONDS)
                 .addInterceptorFirst((HttpRequestInterceptor) (request, context) -> {
                     /*개발자 키 삽입*/
                     request.addHeader("Authorization", apiKey);
                     request.addHeader("Content-Type", "application/json; charset=UTF-8");
                 });
 
-        builder.disableContentCompression();
+//        builder.disableContentCompression();
 
         return new ApacheHttpClient(builder.build());
     }
