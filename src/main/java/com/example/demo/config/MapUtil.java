@@ -10,6 +10,7 @@ import java.util.function.BiFunction;
 
 @UtilityClass
 public class MapUtil {
+    //MapUtil.getData(gson.fromJson(json, Map.class), ArrayList.class, "addresses", 0, "addressElements", 1);
     public static <T> T getData(Map map, Class<T> out_class,Object... keys) throws InstantiationException, IllegalAccessException {
         out_class = ("java.util.List".equals(out_class.getName()))? (Class<T>) ArrayList.class :out_class;
         out_class = ("java.util.Map".equals(out_class.getName()))? (Class<T>) Map.class :out_class;

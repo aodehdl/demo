@@ -1,10 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.MapUtil;
 import com.example.demo.dto.BookSearchDto;
 import com.example.demo.dto.Response;
 import com.example.demo.dto.ValidTestDto;
 import com.example.demo.feign.KakaoFeignService;
 import com.example.demo.service.AsyncService;
+import com.google.gson.Gson;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -29,10 +33,15 @@ import java.util.stream.Collectors;
 public class IndexController {
     private final KakaoFeignService kakaoFeignService;
     private final AsyncService asyncService;
+    private final Gson gson;
+
 
     @GetMapping("")
-    public ModelAndView main(){
+    public ModelAndView main() throws InstantiationException, IllegalAccessException {
         ModelAndView modelAndView = new ModelAndView();
+
+        var result = MapUtil.getData(gson.fromJson(json, Map.class), ArrayList.class, "addresses", 0, "addressElements", 1);
+        log.info("{}",result);
 
         modelAndView.setViewName("index");
 
@@ -100,4 +109,34 @@ public class IndexController {
             "email 이메일<br/>" +
             "email 이메일<br/>" +
             "email 이메일<br/>";
+
+    final String json = "{\n" +
+            "    \"status\": \"OK\",\n" +
+            "    \"meta\": {\n" +
+            "        \"totalCount\": 1,\n" +
+            "        \"page\": 1,\n" +
+            "        \"count\": 1\n" +
+            "    },\n" +
+            "    \"addresses\": [\n" +
+            "        {\n" +
+            "            \"roadAddress\": \"경기도 성남시 분당구 불정로 6 그린팩토리\",\n" +
+            "            \"jibunAddress\": \"경기도 성남시 분당구 정자동 178-1 그린팩토리\",\n" +
+            "            \"englishAddress\": \"6, Buljeong-ro, Bundang-gu, Seongnam-si, Gyeonggi-do, Republic of Korea\",\n" +
+            "            \"addressElements\": [\n" +
+            "                {\n" +
+            "                    \"types\": [\n" +
+            "                        \"POSTAL_CODE\"\n" +
+            "                    ],\n" +
+            "                    \"longName\": \"13561\",\n" +
+            "                    \"shortName\": \"\",\n" +
+            "                    \"code\": \"\"\n" +
+            "                }\n" +
+            "            ],\n" +
+            "            \"x\": \"127.10522081658463\",\n" +
+            "            \"y\": \"37.35951219616309\",\n" +
+            "            \"distance\": 20.925857741585514\n" +
+            "        }\n" +
+            "    ],\n" +
+            "    \"errorMessage\": \"\"\n" +
+            "}";
 }
