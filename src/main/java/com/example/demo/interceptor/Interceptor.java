@@ -34,10 +34,10 @@ public class Interceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
                                 @Nullable Exception ex) throws Exception {
-        if(MediaType.APPLICATION_JSON_VALUE.contains(request.getContentType())){
-            ContentCachingRequestWrapper req = (ContentCachingRequestWrapper) request;
-
-            log.debug("request : {}", gson.toJson( req.getContentAsByteArray()));
-        }
+//        if(MediaType.APPLICATION_JSON_VALUE.contains(request.getContentType())){
+//            ContentCachingRequestWrapper req = (ContentCachingRequestWrapper) request;
+//
+//            log.debug("request : {}", gson.toJson( req.getContentAsByteArray()));
+//        }
     }
 }

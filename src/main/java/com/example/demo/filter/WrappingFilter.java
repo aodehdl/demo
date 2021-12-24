@@ -30,22 +30,22 @@ public class WrappingFilter extends OncePerRequestFilter {
 
         log.debug("request path : {}", request.getRequestURI());
 
-        if(request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE)){
-            req = new ContentCachingRequestWrapper(request);
-            res = new ContentCachingResponseWrapper(response);
-        }
-
-        // 사이즈 설정
-        if(request.getContentLength() > 100000000){
-            returnResponseError(HttpStatus.INTERNAL_SERVER_ERROR, response, new RuntimeException("에러"));
-            return;
-        }
-
+//        if(request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE)){
+//            req = new ContentCachingRequestWrapper(request);
+//            res = new ContentCachingResponseWrapper(response);
+//        }
+//
+//        // 사이즈 설정
+//        if(request.getContentLength() > 100000000){
+//            returnResponseError(HttpStatus.INTERNAL_SERVER_ERROR, response, new RuntimeException("에러"));
+//            return;
+//        }
+//
         filterChain.doFilter(req!=null?req:request, res!=null?res:response);
-
-        if(res!=null){
-            res.copyBodyToResponse();
-        }
+//
+//        if(res!=null){
+//            res.copyBodyToResponse();
+//        }
     }
 
     /**

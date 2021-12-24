@@ -9,7 +9,7 @@ import java.util.concurrent.Executor;
 
 @EnableAsync
 @Configuration
-public class AsyceConfig {
+public class AsyncConfig {
     @Bean
     public Executor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
@@ -17,6 +17,7 @@ public class AsyceConfig {
         executor.setMaxPoolSize(50);
         executor.setQueueCapacity(500);
         executor.setThreadNamePrefix("GithubLookup-");
+        executor.setAllowCoreThreadTimeOut(true);
         executor.setKeepAliveSeconds(10);
         executor.initialize();
         return executor;
